@@ -8,14 +8,6 @@ public class Word {
 	// table name
 	public static final String TABLE_NAME = "words";
 	
-	// table creation SQL
-	public static final String TABLE_CREATE = 
-		"CREATE TABLE " +
-		TABLE_NAME + " (" +
-		_ID + " integer primary key, " +
-		WORD + " varchar(15) " +
-		");";
-	
 	// the list of columns
 	public static final String[] COLUMNS = {
 			_ID,

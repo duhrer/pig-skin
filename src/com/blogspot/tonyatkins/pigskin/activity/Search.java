@@ -77,10 +77,6 @@ public class Search extends Activity {
 					
 					// look for words starting with the string first
 					Cursor words = dbHelper.getWordsStartingWith(db, searchString);
-					if (words.getCount() <= 0) {
-						words = dbHelper.getWordsMatching(db, searchString);
-					}
-					
 					SearchListAdapter adapter = new SearchListAdapter(context, words);
 					
 					searchResults.setAdapter(adapter);
@@ -90,4 +86,10 @@ public class Search extends Activity {
 		}
     	
     }
+
+	@Override
+	protected void onDestroy() {
+		db.close();
+		super.onDestroy();
+	}
 }
