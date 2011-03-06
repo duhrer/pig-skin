@@ -1,20 +1,19 @@
 package com.blogspot.tonyatkins.pigskin.db;
 
+import java.util.List;
+
 import android.content.Context;
-import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.blogspot.tonyatkins.pigskin.model.Word;
-
 public class SearchListAdapter implements ListAdapter{
 	private Context context;
-	private Cursor words;
+	private List<String> words;
 
-	public SearchListAdapter(Context context, Cursor words) {
+	public SearchListAdapter(Context context, List<String> words) {
 		super();
 		this.context = context;
 		this.words = words;
@@ -30,18 +29,12 @@ public class SearchListAdapter implements ListAdapter{
 
 	@Override
 	public int getCount() {
-		if (words.getCount() > 0) {
-			return words.getCount();
-		}
-		else {
-			return 1;
-		}
+		return words.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		words.moveToPosition(position);
-		return words.getString(words.getColumnIndex(Word.WORD));
+		return words.get(position);
 	}
 
 	@Override
@@ -57,13 +50,7 @@ public class SearchListAdapter implements ListAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TextView view = new TextView(context);
-		if ( words.getCount() <= 0) {
-			view.setText("No Results Found");
-		}
-		else {
-			words.moveToPosition(position);
-			view.setText(words.getString(words.getColumnIndex(Word.WORD)));
-		}
+		view.setText(words.get(position));
 
 		return view;
 	}
@@ -80,9 +67,7 @@ public class SearchListAdapter implements ListAdapter{
 
 	@Override
 	public boolean isEmpty() {
-		if (words.getCount() > 0) return false;
-		
-		return true;
+		return (words.size() > 0);
 	}
 
 	@Override
