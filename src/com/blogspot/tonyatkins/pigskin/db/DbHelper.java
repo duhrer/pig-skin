@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.blogspot.tonyatkins.pigskin.model.Word;
 public class DbHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "pigskin";
 	public static final int DATABASE_VERSION = 1;
+	private static final int DB_INSERT_BATCH_SIZE = 500;
 	
 	private Activity activity;
 	
@@ -34,18 +36,28 @@ public class DbHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		Toast.makeText(activity, "Creating database...", Toast.LENGTH_SHORT).show();
 		
-		// create a table for each letter
-		for (char letter = 'a'; letter <='z'; letter++) {
-			db.execSQL("CREATE TABLE " +
-						Word.TABLE_NAME + "_" + letter + " (" +
-						Word._ID + " integer primary key, " +
-						Word.WORD + " varchar(15)) ");
+		try {
+			// create a table for each letter
+			for (char letter = 'a'; letter <='z'; letter++) {
+				db.execSQL("CREATE TABLE " +
+							Word.TABLE_NAME + "_" + letter + " (" +
+							Word._ID + " integer primary key, " +
+							Word.WORD + " varchar(15));");
+			}
+		} catch (SQLException e) {
+			Log.e(getClass().toString(), "Error creating table:", e);
+			Toast.makeText(activity, "Error creating table, check log for details...", Toast.LENGTH_LONG).show();
 		}
 		
-		loadData(db);
+		// We're going to make the user explicitly start the data load with a dialog
+		//loadData(db);
 	}
 
-	private void loadData(SQLiteDatabase db) {
+	public void loadData(SQLiteDatabase db) {
+		// turn off database locking to improve performance
+		db.setLockingEnabled(false);
+
+		
 		// load the data
 		try {
 			Toast.makeText(activity, "Loading data...", Toast.LENGTH_SHORT).show();
@@ -56,6 +68,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			ProgressDialog dialog = new ProgressDialog(activity);
 			int progress = 0;
 			int max = 267751;
+			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.setTitle("Loading SOWPODS data...");
 			dialog.setMax(max);
 			dialog.setProgress(progress);
@@ -87,6 +100,9 @@ public class DbHelper extends SQLiteOpenHelper {
 			Log.e(this.getClass().toString(), "Error loading SOWPODS data from file.", e);
 			Toast.makeText(activity, "Error loading SOWPODS data...", Toast.LENGTH_LONG).show();
 		}
+		
+		// turn database locking back on
+		db.setLockingEnabled(true);
 	}
 
 	@Override
@@ -95,19 +111,30 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 	public void addWords(SQLiteDatabase db, char letter, List<String> words) {
-		// we are going to make the very shady assumption that all words start with the same letter as the first
-		// we're going to insert all of these in a single transaction
-		db.beginTransaction();
-		
-		Iterator<String> iterator = words.iterator();
-		while (iterator.hasNext()) {
-			String word = iterator.next();
-			ContentValues values = new ContentValues();
-			values.put(Word.WORD, word);
-			db.insert(Word.TABLE_NAME + "_" + letter, null, values );
+		try {
+			db.beginTransaction();
+
+			int batchRecord = 0;
+			
+			Iterator<String> iterator = words.iterator();
+			while (iterator.hasNext()) {
+				batchRecord++;
+				String word = iterator.next();
+				ContentValues values = new ContentValues();
+				values.put(Word.WORD, word);
+				db.insertOrThrow(Word.TABLE_NAME + "_" + letter, null, values);
+				if (batchRecord >= DB_INSERT_BATCH_SIZE) {
+					db.endTransaction();
+					batchRecord=0;
+					db.beginTransaction();
+				}
+			}
+			
+			db.endTransaction();
+		} catch (SQLException e) {
+			Log.e(getClass().toString(), "Error inserting data:", e);
+			Toast.makeText(activity, "Error inserting data, check log for details...", Toast.LENGTH_LONG).show();
 		}
-		
-		db.endTransaction();
 	}
 	
 	public boolean isWordValid(SQLiteDatabase db, String word) {
