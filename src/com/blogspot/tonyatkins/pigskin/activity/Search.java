@@ -95,15 +95,7 @@ public class Search extends Activity {
     }
     
     private List<String> getWordsForLetter(char letter) {
-    	int resourceId = 0;
-    	switch(letter) {
-    		case 'u': resourceId = R.array.words_u; break;
-    		case 'v': resourceId = R.array.words_v; break;
-    		case 'w': resourceId = R.array.words_w; break;
-    		case 'x': resourceId = R.array.words_x; break;
-    		case 'y': resourceId = R.array.words_y; break;
-    		case 'z': resourceId = R.array.words_z; break;
-    	}
+    	int resourceId = getResources().getIdentifier("words_" + letter, "array", "com.blogspot.tonyatkins.pigskin");
     	
     	if (resourceId != 0) {
     		try {
