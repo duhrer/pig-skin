@@ -1,12 +1,16 @@
 package com.blogspot.tonyatkins.pigskin.activity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +27,7 @@ public class Search extends Activity {
 	protected EditText searchText;
 	protected ListView searchResults;
 	protected Context context = this;
+	private Map<String,List<String>> wordData = new HashMap<String,List<String>>();
 	
     /** Called when the activity is first created. */
     @Override
@@ -38,7 +43,7 @@ public class Search extends Activity {
         
         // wire up the search button
         Button searchButton = (Button) findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new SearchButtonListener());
+    	searchButton.setOnClickListener(new SearchButtonListener());
     }
     
     private class SearchButtonListener implements OnClickListener {
@@ -69,9 +74,9 @@ public class Search extends Activity {
 				}
 				else {
 					// If the text is valid, search and wire in a new ListAdapter with the results
-					char letter = searchString.charAt(0);
+					String prefix = searchString.substring(0, 2).toLowerCase();
 					List<String> words = new ArrayList<String>();
-					List<String> letterWords = getWordsForLetter(letter);
+					List<String> letterWords = getWordsForPrefix(prefix);
 					
 					// look for words starting with the string first
 					for (String word : letterWords) {
@@ -94,18 +99,28 @@ public class Search extends Activity {
     	
     }
     
-    private List<String> getWordsForLetter(char letter) {
-    	int resourceId = getResources().getIdentifier("words_" + letter, "array", "com.blogspot.tonyatkins.pigskin");
+    private List<String> getWordsForPrefix(String prefix) {
+    	List<String> prefixWords = wordData.get(prefix);
     	
-    	if (resourceId != 0) {
-    		try {
-				String[] stringArray = getResources().getStringArray(resourceId);
-				return Arrays.asList(stringArray);
-			} catch (NotFoundException e) {
-				Log.e(getClass().toString(), "Can't find letter resource", e);
+    	// if there's no data, load it
+    	if (prefixWords == null) {
+    		// load the required data
+    		prefixWords = new ArrayList<String>();
+    		wordData.put(prefix, prefixWords);
+    		
+    		InputStream in;
+			try {
+				in = getAssets().open("words_" + prefix + ".txt");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					prefixWords.add(line.trim().toLowerCase());
+				}
+			} catch (IOException e) {
+				Log.e(getClass().toString(), "Can't load word data", e);
 			}
     	}
     	
-    	return new ArrayList<String>();
-    }
+    	return prefixWords;
+   }
 }
