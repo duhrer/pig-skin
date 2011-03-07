@@ -25,26 +25,26 @@ public class Startup extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-        
-    	
-    	List<String> words = Arrays.asList(getResources().getStringArray(R.array.words_x));
-        if (words.size() > 0) {
-        	Toast.makeText(this, "Dictionary contains " + words.size() + " words beginning with 'x'.", Toast.LENGTH_LONG).show();
-        	
+//        
+//    	
+//    	List<String> words = Arrays.asList(getResources().getStringArray(R.array.words_aa_0));
+//        if (words.size() > 0) {
+//        	Toast.makeText(this, "Dictionary contains " + words.size() + " words beginning with 'x'.", Toast.LENGTH_LONG).show();
+//        	
         	// Open the search page
         	Intent mainIntent = new Intent(this, Search.class);
         	startActivity(mainIntent);
-        }
-        else {
-        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        	AlertDialog dialog = builder.create();
-        	dialog.setIcon(R.drawable.icon);
-        	dialog.setTitle("Dictionary Not Loaded");
-        	dialog.setMessage("Couldn't find word data.");
-        	dialog.setCancelable(false);
-        	dialog.setButton("Quit", new QuitListener(this));
-        	dialog.show();
-        }
+//        }
+//        else {
+//        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        	AlertDialog dialog = builder.create();
+//        	dialog.setIcon(R.drawable.icon);
+//        	dialog.setTitle("Dictionary Not Loaded");
+//        	dialog.setMessage("Couldn't find word data.");
+//        	dialog.setCancelable(false);
+//        	dialog.setButton("Quit", new QuitListener(this));
+//        	dialog.show();
+//        }
     }
 
 	private class QuitListener implements OnClickListener {
