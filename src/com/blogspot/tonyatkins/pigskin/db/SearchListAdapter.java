@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -12,11 +13,14 @@ import android.widget.TextView;
 public class SearchListAdapter implements ListAdapter{
 	private Context context;
 	private List<String> words;
-
+	private Typeface scrabbleFont;
+	
 	public SearchListAdapter(Context context, List<String> words) {
 		super();
 		this.context = context;
 		this.words = words;
+		
+		scrabbleFont = Typeface.createFromAsset(context.getAssets(), "fonts/scramble.ttf");
 	}
 
 	@Override
@@ -51,7 +55,8 @@ public class SearchListAdapter implements ListAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		TextView view = new TextView(context);
 		view.setText(words.get(position));
-
+		view.setTypeface(scrabbleFont);
+		
 		return view;
 	}
 

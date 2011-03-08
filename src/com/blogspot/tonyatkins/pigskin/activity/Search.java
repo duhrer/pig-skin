@@ -110,7 +110,7 @@ public class Search extends Activity {
     		
     		InputStream in;
 			try {
-				in = getAssets().open("words_" + prefix + ".txt");
+				in = getAssets().open("dictionary/words_" + prefix + ".txt");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 				String line;
 				while ((line = reader.readLine()) != null) {
