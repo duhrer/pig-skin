@@ -16,7 +16,7 @@ import com.blogspot.tonyatkins.pigskin.R;
 import com.blogspot.tonyatkins.pigskin.db.SearchListAdapter;
 import com.blogspot.tonyatkins.pigskin.util.SearchManager;
 
-public class Search extends Activity {
+public class Bingo extends Activity {
 	protected EditText searchText;
 	protected ListView searchResults;
 	protected Context context = this;
@@ -52,13 +52,8 @@ public class Search extends Activity {
 			else {
 				String searchString = searchText.getText().toString().trim().toLowerCase();
 				
-				if (searchString.length() <= 1) {
-					Toast.makeText(context, "Words must be at least two letters long...", Toast.LENGTH_LONG).show();
-					searchResults.setAdapter(null);
-					searchResults.invalidateViews();
-				}
-				else if (searchString.length() > 15) {
-					Toast.makeText(context, "Words can only be 15 letters or less...", Toast.LENGTH_LONG).show();
+				if (searchString.length() != 7) {
+					Toast.makeText(context, "You must enter seven letters to find a 'bingo'.", Toast.LENGTH_LONG).show();
 					searchResults.setAdapter(null);
 					searchResults.invalidateViews();
 				}
@@ -69,12 +64,12 @@ public class Search extends Activity {
 				}
 				else {
 					// If the text is valid, search and wire in a new ListAdapter with the results
-					List<String> words = searchManager.getWordsStartingWith(searchString);
+					List<String> words = searchManager.findBingo(searchString);
 						
 					// FIXME: match parts of words by iterating through all the sets of letters (likely expensive)
 					
 					if (words.size() <= 0) {
-						words.add("No matches for '" + searchString + "'");
+						words.add("No 7-letter words found matching letters '" + searchString + "'");
 					}
 					
 					SearchListAdapter adapter = new SearchListAdapter(context, words);
