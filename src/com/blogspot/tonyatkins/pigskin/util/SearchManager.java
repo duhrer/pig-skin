@@ -52,6 +52,7 @@ public class SearchManager {
    }
 
 	public List<String> getWordsStartingWith(String searchString) {
+		// FIXME: Add support for blank characters
 		List<String> wordsStartingWith = new ArrayList<String>();
 		String prefix = searchString.substring(0, 2).toLowerCase();
 		
@@ -77,6 +78,8 @@ public class SearchManager {
 	}
 
 	public List<String> findBingo(String searchString) {
+		// FIXME: Add support for blank characters
+		
 		// FIXME: Make our own extension of SortedSet with a longest, then alphabetical sort order
 		List<String> validAnagrams = new ArrayList<String>();
 
