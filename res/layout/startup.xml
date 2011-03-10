@@ -6,17 +6,34 @@
     android:gravity="center"
     android:layout_gravity="center"
     >
-<ImageView
-	android:src="@drawable/logo"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-	android:scaleType="centerInside"
-/>
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="PigSkin SOWPODS dictionary for Android"
-    android:paddingTop="20sp"
-	android:gravity="center"
-    />
+	<ImageView
+		android:src="@drawable/logo"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+		android:scaleType="centerInside"
+	/>
+	<Button
+		android:id="@+id/startupSearchButton"
+		android:layout_width="fill_parent"
+		android:layout_height="50px"
+		android:text="Search Dictionary"
+	/>
+	<Button
+		android:id="@+id/startupBingoButton"
+		android:layout_width="fill_parent"
+		android:layout_height="50px"
+		android:text="Find Bingo"
+	/>
+	<Button
+		android:id="@+id/startupBingoBenefitsButton"
+		android:layout_width="fill_parent"
+		android:layout_height="50px"
+		android:text="Bingo + Benefits"
+	/>
+	<Button
+		android:id="@+id/startupQuitButton"
+		android:layout_width="fill_parent"
+		android:layout_height="50px"
+		android:text="Quit"
+	/>
 </LinearLayout>

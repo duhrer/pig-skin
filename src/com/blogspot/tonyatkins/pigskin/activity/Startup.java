@@ -1,15 +1,11 @@
 package com.blogspot.tonyatkins.pigskin.activity;
 
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.blogspot.tonyatkins.pigskin.R;
 
@@ -20,33 +16,41 @@ public class Startup extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.startup);
+        
+        // search button
+        Button searchButton = (Button) findViewById(R.id.startupSearchButton);
+        searchButton.setOnClickListener(new StartActivityListener(this, Search.class));
+        
+        // bingo button
+        Button bingoButton = (Button) findViewById(R.id.startupBingoButton);
+        bingoButton.setOnClickListener(new StartActivityListener(this, Bingo.class));
+        
+        // bingo with benefits
+        Button bingoBenefitsButton = (Button) findViewById(R.id.startupBingoBenefitsButton);
+        
+        // quit
+        Button quitButton = (Button) findViewById(R.id.startupQuitButton);
+        quitButton.setOnClickListener(new QuitListener(this));
     }
     
-    @Override
-    protected void onResume() {
-    	super.onResume();
-//        
-//    	
-//    	List<String> words = Arrays.asList(getResources().getStringArray(R.array.words_aa_0));
-//        if (words.size() > 0) {
-//        	Toast.makeText(this, "Dictionary contains " + words.size() + " words beginning with 'x'.", Toast.LENGTH_LONG).show();
-//        	
-        	// Open the search page
-        	Intent mainIntent = new Intent(this, Search.class);
-        	startActivity(mainIntent);
-//        }
-//        else {
-//        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        	AlertDialog dialog = builder.create();
-//        	dialog.setIcon(R.drawable.icon);
-//        	dialog.setTitle("Dictionary Not Loaded");
-//        	dialog.setMessage("Couldn't find word data.");
-//        	dialog.setCancelable(false);
-//        	dialog.setButton("Quit", new QuitListener(this));
-//        	dialog.show();
-//        }
-    }
 
+    private class StartActivityListener implements OnClickListener {
+    	private Activity activity;
+    	private Class startClass;
+
+		public StartActivityListener(Activity activity, Class startClass) {
+			super();
+			this.activity = activity;
+			this.startClass = startClass;
+		}
+
+		@Override
+		public void onClick(View view) {
+        	Intent mainIntent = new Intent(activity, startClass);
+        	startActivity(mainIntent);
+		}
+    }
+    
 	private class QuitListener implements OnClickListener {
 		private Activity activity;
 
@@ -56,8 +60,7 @@ public class Startup extends Activity {
 		}
 
 		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			dialog.dismiss();
+		public void onClick(View view) {
 			activity.finish();
 		}
 	}
