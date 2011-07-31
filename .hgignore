@@ -3,3 +3,13 @@ syntax: regexp
 ^bin$
 syntax: regexp
 ^gen$
+syntax: regexp
+^\.settings$
+syntax: regexp
+^\.classpath$
+syntax: regexp
+^default\.properties$
+syntax: regexp
+^\.project$
+syntax: regexp
+^\.classpath$
