@@ -4,14 +4,18 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.blogspot.tonyatkins.pigskin.Constants;
 import com.blogspot.tonyatkins.pigskin.R;
 import com.blogspot.tonyatkins.pigskin.db.SearchListAdapter;
 import com.blogspot.tonyatkins.pigskin.util.SearchManager;
@@ -28,6 +32,16 @@ public class Search extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
+        SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		boolean fullScreen = preferences.getBoolean(Constants.FULL_SCREEN_PREF,
+				Constants.DEFAULT_FULL_SCREEN);
+		if (fullScreen) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+        
         searchManager = new SearchManager(this);
         
         // wire up the text entry field

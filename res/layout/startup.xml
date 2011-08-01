@@ -31,6 +31,12 @@
 		android:text="Bingo + Benefits"
 	/>
 	<Button
+		android:id="@+id/startupPrefsButton"
+		android:layout_width="fill_parent"
+		android:layout_height="50px"
+		android:text="Preferences"
+	/>
+	<Button
 		android:id="@+id/startupQuitButton"
 		android:layout_width="fill_parent"
 		android:layout_height="50px"

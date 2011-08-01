@@ -2,11 +2,15 @@ package com.blogspot.tonyatkins.pigskin.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.blogspot.tonyatkins.pigskin.Constants;
 import com.blogspot.tonyatkins.pigskin.R;
 
 public class Startup extends Activity {
@@ -16,6 +20,16 @@ public class Startup extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.startup);
+
+        SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		boolean fullScreen = preferences.getBoolean(Constants.FULL_SCREEN_PREF,
+				Constants.DEFAULT_FULL_SCREEN);
+		if (fullScreen) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
         
         // search button
         Button searchButton = (Button) findViewById(R.id.startupSearchButton);
@@ -28,13 +42,22 @@ public class Startup extends Activity {
         // bingo with benefits
         Button bingoBenefitsButton = (Button) findViewById(R.id.startupBingoBenefitsButton);
         
+        // preferences button
+        Button prefsButton = (Button) findViewById(R.id.startupPrefsButton);
+        prefsButton.setOnClickListener(new StartActivityListener(this, Prefs.class));
+        
         // quit
         Button quitButton = (Button) findViewById(R.id.startupQuitButton);
         quitButton.setOnClickListener(new QuitListener(this));
     }
-    
 
-    private class StartActivityListener implements OnClickListener {
+    // FIXME: Check to see if preferences have been updated and force a reload if needed
+//    @Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//	}
+
+	private class StartActivityListener implements OnClickListener {
     	private Activity activity;
     	private Class startClass;
 
