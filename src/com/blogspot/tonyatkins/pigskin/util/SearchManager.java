@@ -11,18 +11,24 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.apache.commons.collections.ListUtils;
-import org.apache.commons.collections.SetUtils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.blogspot.tonyatkins.pigskin.Constants;
 
 public class SearchManager {
 	private Map<String,List<String>> wordData = new HashMap<String,List<String>>();
 	private Context context;
+	private	SharedPreferences preferences; 
 	
     public SearchManager(Context context) {
 		super();
 		this.context = context;
+		
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 
@@ -34,10 +40,12 @@ public class SearchManager {
     		// load the required data
     		prefixWords = new ArrayList<String>();
     		wordData.put(prefix, prefixWords);
+
+    		String dictionary = preferences.getString(Constants.DICTIONARY_PREF, Constants.DEFAULT_DICTIONARY);
     		
     		InputStream in;
 			try {
-				in = context.getAssets().open("dictionary/words_" + prefix + ".txt");
+				in = context.getAssets().open("dictionary/" + dictionary + "/words_" + prefix + ".txt");
 				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 				String line;
 				while ((line = reader.readLine()) != null) {

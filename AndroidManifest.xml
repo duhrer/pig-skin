@@ -18,6 +18,9 @@
         <activity android:name=".activity.Bingo"
         		  android:label="Find 7-letter Word">
         </activity>
+        <activity android:name=".activity.Prefs"
+        		  android:label="Preferences">
+        </activity>
     </application>
     <uses-sdk android:minSdkVersion="7" />
 
