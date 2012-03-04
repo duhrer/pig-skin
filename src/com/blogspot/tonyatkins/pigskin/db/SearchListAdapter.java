@@ -2,6 +2,7 @@ package com.blogspot.tonyatkins.pigskin.db;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,22 +19,20 @@ import android.widget.TextView;
 import com.blogspot.tonyatkins.pigskin.Constants;
 import com.blogspot.tonyatkins.pigskin.model.Dictionary;
 import com.blogspot.tonyatkins.pigskin.model.DictionaryFactory;
+import com.blogspot.tonyatkins.pigskin.view.TiledView;
 
 public class SearchListAdapter implements ListAdapter{
-	private Context context;
+	private Activity activity;
 	private List<String> words;
-	private Typeface scrabbleFont;
 	private final DictionaryFactory dictionaryFactory = new DictionaryFactory();
 	
 	private	final SharedPreferences preferences; 
 	
-	public SearchListAdapter(Context context, List<String> words) {
+	public SearchListAdapter(Activity activity, List<String> words) {
 		super();
-		this.context = context;
+		this.activity = activity;
 		this.words = words;
-		this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		
-		scrabbleFont = Typeface.createFromAsset(context.getAssets(), "fonts/scramble.ttf");
+		this.preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 	}
 
 	@Override
@@ -66,11 +65,8 @@ public class SearchListAdapter implements ListAdapter{
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		TextView view = new TextView(context);
-		String word = words.get(position);
-		view.setText(word);
-		view.setTypeface(scrabbleFont);
-		view.setOnLongClickListener(new LookupListener(word,this.context));
+		TiledView view = new TiledView(activity, words.get(position));
+		view.setOnLongClickListener(new LookupListener(words.get(position),this.activity));
 		
 		return view;
 	}
