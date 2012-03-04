@@ -3,13 +3,12 @@ package com.blogspot.tonyatkins.pigskin.activity;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,7 +22,7 @@ import com.blogspot.tonyatkins.pigskin.util.SearchManager;
 public class Bingo extends Activity {
 	protected EditText searchText;
 	protected ListView searchResults;
-	protected Context context = this;
+	protected Activity activity = this;
 	private SearchManager searchManager;
 	
     /** Called when the activity is first created. */
@@ -59,7 +58,7 @@ public class Bingo extends Activity {
 		public void onClick(View v) {
 			// Check to make sure the text entered is valid
 			if (searchText == null || searchText.getText() == null) {
-				Toast.makeText(context, "Invalid or empty search string...", Toast.LENGTH_LONG).show();
+				Toast.makeText(activity, "Invalid or empty search string...", Toast.LENGTH_LONG).show();
 				searchResults.setAdapter(null);
 				searchResults.invalidateViews();
 			}
@@ -67,12 +66,12 @@ public class Bingo extends Activity {
 				String searchString = searchText.getText().toString().trim().toLowerCase();
 				
 				if (searchString.length() != 7) {
-					Toast.makeText(context, "You must enter seven letters to find a 'bingo'.", Toast.LENGTH_LONG).show();
+					Toast.makeText(activity, "You must enter seven letters to find a 'bingo'.", Toast.LENGTH_LONG).show();
 					searchResults.setAdapter(null);
 					searchResults.invalidateViews();
 				}
 				else if (searchString.matches(".*[^a-zA-Z]+.*")) {
-					Toast.makeText(context, "Words can only contain letters...", Toast.LENGTH_LONG).show();
+					Toast.makeText(activity, "Words can only contain letters...", Toast.LENGTH_LONG).show();
 					searchResults.setAdapter(null);
 					searchResults.invalidateViews();
 				}
@@ -86,7 +85,7 @@ public class Bingo extends Activity {
 						words.add("No 7-letter words found matching letters '" + searchString + "'");
 					}
 					
-					SearchListAdapter adapter = new SearchListAdapter(context, words);
+					SearchListAdapter adapter = new SearchListAdapter(activity, words);
 					
 					searchResults.setAdapter(adapter);
 					searchResults.invalidateViews();
