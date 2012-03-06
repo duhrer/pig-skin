@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="50dp"
-    android:layout_height="50dp" 
-	android:layout_margin="2dp"
+    android:layout_width="16dp"
+    android:layout_height="16dp" 
+	android:layout_margin="4dp"
     android:background="@drawable/tile"
     >
 <TextView 
     android:id="@+id/tileLayoutLetter"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="fill_parent" 
+    android:textSize="12dp"
     android:layout_gravity="center"
+    android:paddingLeft="3dp"
     android:text="A"
     />    
 <TextView 
     android:id="@+id/tileLayoutNumber"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="15dp"
+    android:layout_height="15dp" 
     android:gravity="bottom|right"
     android:textSize="4dp"
     android:text="1"

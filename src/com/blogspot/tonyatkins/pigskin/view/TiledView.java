@@ -10,13 +10,23 @@ import com.blogspot.tonyatkins.pigskin.R;
 
 public class TiledView extends LinearLayout {
 	private final Activity activity;
+	private String text;
 	
 	public TiledView(Activity activity, String text) {
 		super(activity);
 		this.activity = activity;
 		this.setOrientation(LinearLayout.HORIZONTAL);
-		
-		
+		setText(text);
+	}
+	
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+
+		removeAllViews();
 		LayoutInflater inflater =  activity.getLayoutInflater();
 		for (char a : text.toCharArray()) {
 			View view = inflater.inflate(R.layout.tile_layout, null);
