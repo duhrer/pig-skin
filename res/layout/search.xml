@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/searchLinearLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center"
     android:layout_gravity="center"
-    >
-    
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_weight="3"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-	>
-		<EditText
-			android:id="@+id/searchPattern"
-			android:hint="Enter word to find"
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:layout_weight="1"
-		/>
-		<Button
-			android:id="@+id/searchButton"
-			android:text="Go"
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-			android:layout_weight="4"
-		/>
-	</LinearLayout>
-	
-	<ListView
-		android:layout_margin="10sp"
-		android:id="@+id/searchResults"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:layout_weight="1"
-		android:background="@drawable/darkgrayoutline" 
-	/>
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/searchPattern"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Enter word to find" />
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Go" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/searchResults"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+	    android:layout_margin="10sp"
+        android:background="@drawable/darkgrayoutline" />
+
+    <TextView
+        android:id="@+id/searchDictionaryName"
+	    android:layout_margin="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Dictionary name"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
 </LinearLayout>

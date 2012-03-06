@@ -17,7 +17,7 @@ import com.blogspot.tonyatkins.pigskin.R;
 
 public class Prefs extends PreferenceActivity {
 	private static final int TTS_CHECK_CODE = 777;
-	public static final int EDIT_PREFERENCES = 999;
+	public static final int REQUEST_CODE = 999;
 	public static final int RESULT_PREFS_CHANGED = 134;
 	
 	@Override

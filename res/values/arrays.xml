@@ -2,12 +2,10 @@
 <resources>
 	<string-array name="dictionaryEntries">
 		<item>English (SOWPODS)</item>
-		<item>English (TWL)</item>
-		<item>Nederlands</item>
+		<item>Nederlands (Opentaal)</item>
 	</string-array>
 	<string-array name="dictionaryEntryValues">
 		<item>sowpods</item>
-		<item>twl</item>
 		<item>opentaal</item>
 	</string-array>
 </resources>
