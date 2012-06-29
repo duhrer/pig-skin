@@ -1,9 +1,7 @@
 package com.blogspot.tonyatkins.pigskin.util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,10 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
-
-import org.apache.commons.collections.ListUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -101,7 +96,7 @@ public class SearchManager {
 			}
 
 			// validate the list
-			validAnagrams = ListUtils.intersection(anagrams, validWords);
+//			validAnagrams = ListUtils.intersection(anagrams, validWords);
 		}
 
 		return validAnagrams;
