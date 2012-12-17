@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.blogspot.tonyatkins</groupId>
+	<artifactId>pig-skin</artifactId>
+	<version>1.0</version>
+	<packaging>apk</packaging>
+	<name>Pig Skin Scrabble Dictionary</name>
+
+	<developers>
+		<developer>
+			<id>duhrer</id>
+			<name>Tony Atkins</name>
+			<email>duhrer@gmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:hg:https://duhrer@bitbucket.org/duhrer/pig-skin</connection>
+		<url>https://duhrer@bitbucket.org/duhrer/pig-skin</url>
+	</scm>
+
+	<properties>
+		<android.api.version>7</android.api.version>
+		<android.avd.device.name>Gingerbread</android.avd.device.name>
+		<android.version>2.1_r1</android.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android</artifactId>
+			<version>${android.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>org.apache.lucene</groupId>
+		  <artifactId>lucene-analyzers</artifactId>
+		  <version>4.0.0-BETA</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.apache.lucene</groupId>
+		  <artifactId>lucene-core</artifactId>
+		  <version>4.0.0-BETA</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.apache.lucene</groupId>
+		  <artifactId>lucene-queryparser</artifactId>
+		  <version>4.0.0-BETA</version>
+		</dependency>
+		
+		<!-- Make sure this is below the android dependencies -->
+		<!-- apparently we can only use the maven android plugin if we have our 
+			test deps set to compile. -->
+		<!--
+		<dependency>
+			<groupId>com.pivotallabs</groupId>
+			<artifactId>robolectric</artifactId>
+			<version>1.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		-->
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<pluginManagement>
+		  <plugins>
+                    <plugin>
+                      <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                      <artifactId>android-maven-plugin</artifactId>
+                      <version>3.4.1</version>
+		      
+                      <extensions>true</extensions>
+                    </plugin>
+		  </plugins>
+		</pluginManagement>
+		<plugins>
+		  <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <configuration>
+                      <sdk>
+                        <!-- platform or api level (api level 4 = platform 1.6)-->
+                        <platform>10</platform>
+                      </sdk>
+		      <apkMetaIncludes>
+			<metaInclude>services/**</metaInclude>
+		      </apkMetaIncludes>
+                    </configuration>
+		  </plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- version 2.3 defaults to java 1.5, so no further configuration needed -->
+				<version>2.3.1</version>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<excludes>
+						<exclude>bin/**</exclude>
+						<exclude>gen/**</exclude>
+						<exclude>.hgignore</exclude>
+					</excludes>
+					<properties>
+						<license.user.name>Tony Atkins</license.user.name>
+						<license.user.email>duhrer@gmail.com</license.user.email>
+						<license.year>2012</license.year>
+					</properties>
+					<header>src/etc/license-header.txt</header>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+</project>
