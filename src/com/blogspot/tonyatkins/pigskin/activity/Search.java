@@ -125,7 +125,7 @@ public class Search extends Activity {
 								.show();
 						searchResults.setAdapter(null);
 						searchResults.invalidateViews();
-					} else if (searchString.matches(".*[^a-zA-Z]+.*")) {
+					} else if (searchString.matches(".*[^a-zA-Z?*]+.*")) {
 						Toast.makeText(activity, "Words can only contain letters...", Toast.LENGTH_LONG).show();
 						searchResults.setAdapter(null);
 						searchResults.invalidateViews();
