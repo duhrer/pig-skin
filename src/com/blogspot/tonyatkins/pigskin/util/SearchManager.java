@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.blogspot.tonyatkins.pigskin.Constants;
 
@@ -139,21 +140,38 @@ public class SearchManager {
 		List<String> matchingWords = new ArrayList<String>();
 		IndexReader reader;
 		try {
-			File indexDirectory = new File(Environment.getExternalStorageDirectory() + "/pigskin/indexes/" + dictionary);
+			File indexDirectory = new File(Constants.INDEX_DIRECTORY + "/" + dictionary);
 			// TODO:  Move this to a startup activity instead
 			if (!indexDirectory.exists()){
-				indexDirectory.mkdirs();
+				Log.d(Constants.TAG, "Index directory doesn't exist.  Creating it now...");
+				if (indexDirectory.mkdirs()) {
+					Log.d(Constants.TAG, "Created index directory '" + indexDirectory.getAbsolutePath() + "'.");
+				}
+				else {
+					Log.e(Constants.TAG, "Unable to create index directory '" + indexDirectory.getAbsolutePath() + "'.");
+				}
+			}
 				
-				InputStream assetInputStream = context.getAssets().open("dictionary/indexes/" + dictionary + ".zip" );
-				ZipInputStream zin = new ZipInputStream(assetInputStream);
-				ZipEntry ze;
-				while ((ze = zin.getNextEntry()) != null) {
-					if (ze.isDirectory()) {
-						File unzippedDirectory = new File(indexDirectory + "/" + ze.getName());
-						unzippedDirectory.mkdirs();
+			InputStream assetInputStream = context.getAssets().open("dictionary/indexes/" + dictionary + ".zip" );
+			ZipInputStream zin = new ZipInputStream(assetInputStream);
+			ZipEntry ze;
+			while ((ze = zin.getNextEntry()) != null) {
+				if (ze.getName().contains("META")) {
+					Log.d(Constants.TAG, "Skipping META information in dictionary zip.");
+				}
+				else if (ze.isDirectory()) {
+					File unzippedDirectory = new File(indexDirectory + "/" + ze.getName());
+					unzippedDirectory.mkdirs();
+				}
+				else {
+					File file = new File(indexDirectory.getAbsolutePath() + "/" + ze.getName());
+					if (file.exists()) {
+						Log.d(Constants.TAG, "File '" + file.getAbsolutePath() + "' already exists, no need to recreate it.");
 					}
 					else {
-						BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(indexDirectory.getAbsolutePath() + "/" + ze.getName()), Constants.BUFFER_SIZE);
+						Log.d(Constants.TAG, "File '" + file.getAbsolutePath() + "' does not exist, creating from zip file.");
+						
+						BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_SIZE);
 						byte[] buffer = new byte[Constants.BUFFER_SIZE];
 						int count;
 						while ((count = zin.read(buffer, 0, Constants.BUFFER_SIZE)) != -1) {
@@ -176,7 +194,7 @@ public class SearchManager {
 				matchingWords.add(document.get(Constants.SEARCH_FIELD));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(Constants.TAG, "Error opening index file:", e);
 		}
 
 		return matchingWords;
