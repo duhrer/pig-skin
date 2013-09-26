@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
-		android:title="@string/menu_tools"
-		android:icon="@android:drawable/ic_menu_manage"
-		android:id="@+id/menuTools"/>
-	<item
 		android:title="@string/menu_preferences"
 		android:icon="@android:drawable/ic_menu_preferences"
 		android:id="@+id/menuPrefs"/>
