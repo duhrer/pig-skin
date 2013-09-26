@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pig Skin</string>
-    <string name="menu_preferences">Preferences</string>
     <string name="menu_exit">Quit</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_preferences">Preferences</string>
+    <string name="tools_dictionary_button">Remove Dictionary Files</string>
 </resources>
