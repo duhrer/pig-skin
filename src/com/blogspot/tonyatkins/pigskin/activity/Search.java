@@ -73,6 +73,9 @@ public class Search extends Activity {
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.menuTools:
+			launchTools();
+			break;
 		case R.id.menuPrefs:
 			launchPrefs();
 			break;
@@ -86,6 +89,11 @@ public class Search extends Activity {
 	private void launchPrefs() {
 		Intent prefsIntent = new Intent(this, Prefs.class);
 		startActivityForResult(prefsIntent, Prefs.REQUEST_CODE);
+	}
+
+	private void launchTools() {
+		Intent toolsIntent = new Intent(this, ToolsActivity.class);
+		startActivityForResult(toolsIntent, ToolsActivity.REQUEST_CODE);
 	}
 
 	@Override
