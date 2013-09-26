@@ -46,8 +46,7 @@ public class IndexDictionaryFiles {
 			try {
 				Directory dir = FSDirectory.open(new File(indexFile));
 				// We need to make sure no words are ignored, so we send an empty set of "stop words"
-				CharArraySet stopWords = new CharArraySet(Version.LUCENE_40,0,true);
-				Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_40, stopWords);
+				Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_40, Constants.STOP_WORDS);
 				IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_40,
 						analyzer);
 				iwc.setOpenMode(OpenMode.CREATE);

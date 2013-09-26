@@ -26,7 +26,6 @@ import org.apache.lucene.util.Version;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -185,7 +184,7 @@ public class SearchManager {
 			
 			reader = DirectoryReader.open(FSDirectory.open(indexDirectory));
 			IndexSearcher searcher = new IndexSearcher(reader);
-			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_40);
+			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_40, Constants.STOP_WORDS);
 			QueryParser parser = new QueryParser(Version.LUCENE_40,Constants.SEARCH_FIELD, analyzer);
 			Query query = parser.parse(searchString);
 			TopDocs topDocs = searcher.search(query,Constants.MAX_SEARCH_RESULTS);
