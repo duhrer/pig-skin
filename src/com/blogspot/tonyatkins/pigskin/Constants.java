@@ -1,5 +1,8 @@
 package com.blogspot.tonyatkins.pigskin;
 
+import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.util.Version;
+
 import android.os.Environment;
 
 
@@ -26,4 +29,6 @@ public class Constants {
 	// Only used in generating index files, not used by the app itself.
 	public final static String DICTIONARY_ROOT_FILESYSTEM_PATH = "/Users/etht/Source/pig-skin/extras/dictionary";
 	public final static String DICTIONARY_INDEX_ROOT_FILESYSTEM_PATH = "/Users/etht/Source/pig-skin/assets/dictionary/indexes";
+
+	public static final CharArraySet STOP_WORDS = new CharArraySet(Version.LUCENE_40,0,true);
 }
